@@ -19,7 +19,7 @@ dnf5 config-manager setopt fedora-cisco-openh264.enabled=1
 
 dnf5 config-manager setopt install_weak_deps=0
 
-dnf5 remove -y --allowerasing \
+dnf5 remove -y \
 	       --disable-plugin=protected_packages \
 	       kernel \
 	       kernel-core \
