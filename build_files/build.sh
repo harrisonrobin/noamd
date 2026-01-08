@@ -10,6 +10,7 @@ set -ouex pipefail
 # https://mirrors.rpmfusion.org/mirrorlist?path=free/fedora/updates/43/x86_64/repoview/index.html&protocol=https&redirect=1
 #Cachy Kernels
 dnf5 -y install dnf-plugins-core
+
 dnf5 -y copr enable bieszczaders/kernel-cachyos-lto
 
 # RPMfusion repos
@@ -55,8 +56,6 @@ systemctl enable podman.socket
 systemctl enable gdm ananicy-cpp iwd NetworkManager systemd-resolved
 
 systemctl set-default graphical.target
-
-
 
 setsebool -P domain_kernel_load_modules on
 
