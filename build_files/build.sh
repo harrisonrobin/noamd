@@ -9,9 +9,8 @@ set -ouex pipefail
 # List of rpmfusion packages can be found here:
 # https://mirrors.rpmfusion.org/mirrorlist?path=free/fedora/updates/43/x86_64/repoview/index.html&protocol=https&redirect=1
 #Cachy Kernels
-dnf5 -y install dnf-plugins-core
-
-dnf5 -y copr enable bieszczaders/kernel-cachyos-lto
+curl -L https://copr.fedorainfracloud.org/coprs/bieszczaders/kernel-cachyos/repo/fedora-43/bieszczaders-kernel-cachyos-fedora-43.repo \
+    -o /etc/yum.repos.d/kernel-cachyos.repo
 
 # RPMfusion repos
 dnf5 -y install https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
