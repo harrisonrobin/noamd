@@ -15,11 +15,11 @@ curl -L https://copr.fedorainfracloud.org/coprs/bieszczaders/kernel-cachyos/repo
 # RPMfusion repos
 dnf5 -y install https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
 
-dnf5 config-manager setopt fedora-cisco-openh264.enabled=1
+dnf config-manager setopt fedora-cisco-openh264.enabled=1
 
-dnf5 config-manager setopt install_weak_deps=0
+dnf config-manager setopt install_weak_deps=0
 
-dnf5 remove -y --allow-erasing \
+dnf remove -y --allow-erasing \
 	       --disable-plugin=protected_packages \
 	       kernel \
 	       kernel-core \
@@ -29,7 +29,7 @@ dnf5 remove -y --allow-erasing \
 	       pulseaudio
 
 # this installs a package from fedora repos
-dnf5 install -y --setopt keepcache=1 \
+dnf install -y --setopt keepcache=1 \
 		kakoune \
 		fish \
 		kernel-cachyos-lto\
