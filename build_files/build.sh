@@ -25,7 +25,6 @@ dnf5 remove -y \
 	       kernel-core \
 	       kernel-modules \
 	       wpa_supplicant \
-	       sudo \
 	       pulseaudio
 
 # this installs a package from fedora repos
