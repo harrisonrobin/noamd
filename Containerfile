@@ -5,36 +5,21 @@ COPY build_files /
 # Base Image
 FROM quay.io/fedora/fedora-bootc:43
 
-## Other possible base images include:
-# FROM ghcr.io/ublue-os/bazzite:latest
-# FROM ghcr.io/ublue-os/bluefin-nvidia:stable
-# 
-# ... and so on, here are more base images
-# Universal Blue Images: https://github.com/orgs/ublue-os/packages
-# Fedora base image: quay.io/fedora/fedora-bootc:41
-# CentOS base images: quay.io/centos-bootc/centos-bootc:stream10
+# --- SECURE BOOT KEYS ---
+# Expects these files to be in your build context directory
+COPY noamd.key /tmp/noamd.key
+COPY noamd.crt /etc/pki/noamd/noamd.crt
 
-### [IM]MUTABLE /opt
-## Some bootable images, like Fedora, have /opt symlinked to /var/opt, in order to
-## make it mutable/writable for users. However, some packages write files to this directory,
-## thus its contents might be wiped out when bootc deploys an image, making it troublesome for
-## some packages. Eg, google-chrome, docker-desktop.
-##
-## Uncomment the following line if one desires to make /opt immutable and be able to be used
-## by the package manager.
-
-# RUN rm /opt && mkdir /opt
-
-### MODIFICATIONS
-## make modifications desired in your image and install packages by modifying the build.sh script
-## the following RUN directive does all the things required to run "build.sh" as recommended.
-
+# --- BUILD EXECUTION ---
+# We mount /tmp/noamd.key so it doesn't end up in the final image layer
 RUN --mount=type=bind,from=ctx,source=/,target=/ctx \
-    --mount=type=cache,dst=/var/cache \
-    --mount=type=cache,dst=/var/log \
+    --mount=type=cache,dst=/var/cache/dnf \
     --mount=type=tmpfs,dst=/tmp \
     /ctx/build.sh
-    
-### LINTING
-## Verify final image and contents are correct.
+
+# --- CLEANUP ---
+# Ensure the private key is gone (redundant if using tmpfs, but good practice)
+RUN rm -f /tmp/noamd.key
+
+# --- LINTING ---
 RUN bootc container lint
